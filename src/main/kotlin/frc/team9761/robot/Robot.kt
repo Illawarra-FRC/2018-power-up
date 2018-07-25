@@ -62,12 +62,10 @@ class Robot : IterativeRobot() {
         return 0 // centre
     }
 
-    var startTime: Long = 0
     lateinit var strategy: Strategy
     var stepIndex: Int = 0
 
     override fun autonomousInit() {
-        startTime = System.currentTimeMillis()
         val gameData = DriverStation.getInstance().gameSpecificMessage
         SmartDashboard.putString("gameData", gameData)
         val startPositionVoltage = startPosition.getVoltage()
@@ -103,16 +101,6 @@ class Robot : IterativeRobot() {
     }
 
     override fun autonomousPeriodic() {
-        val currentTime = System.currentTimeMillis()
-        val elapsedTime = currentTime - startTime
-
-        if (elapsedTime < Speeds.LIFT_RAISE_DURATION)
-            lift.raise()
-        else {
-            lift.stop()
-            wrist.release()
-        }
-
         val steps = strategy.steps()
         if (stepIndex < steps.size) {
             if (steps[stepIndex].stepPeriodic(this)) {

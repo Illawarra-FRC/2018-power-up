@@ -37,7 +37,8 @@ object LeftToCrossLine: Strategy() {
 
     override fun steps(): Array<Step> = arrayOf(
         Drive(6.0),
-        TurnRight()
+        TurnRight(),
+        WristRelease()
     )
 }
 
@@ -99,7 +100,8 @@ object RightToCrossLine: Strategy() {
 
     override fun steps(): Array<Step> = arrayOf(
         Drive(6.0),
-        TurnLeft()
+        TurnLeft(),
+        WristRelease()
     )
 }
 

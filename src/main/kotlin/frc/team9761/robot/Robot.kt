@@ -131,9 +131,9 @@ class Robot : IterativeRobot() {
             val leftBumper = controller.getBumper(Hand.kLeft)
             val rightBumper = controller.getBumper(Hand.kRight)
             if (leftBumper)
-                lift.raise()
-            else if (rightBumper)
                 lift.lower()
+            else if (rightBumper)
+                lift.raise()
             else
                 lift.stop()
         }

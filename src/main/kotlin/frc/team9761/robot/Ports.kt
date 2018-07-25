@@ -20,7 +20,7 @@ object Ports {
     val WRIST_SERVO_CHANNEL = 8
 
     // Analog input channel
-    val START_POSITION_CHANNEL = 9
+    val START_POSITION_CHANNEL = 0
 
     // DIO ports
     val ENCODER_LEFT_A_CHANNEL = 0

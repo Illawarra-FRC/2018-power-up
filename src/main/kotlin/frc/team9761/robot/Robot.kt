@@ -1,10 +1,12 @@
 package frc.team9761.robot
 
+import edu.wpi.first.wpilibj.AnalogInput
+import edu.wpi.first.wpilibj.CameraServer
+import edu.wpi.first.wpilibj.DriverStation
 import edu.wpi.first.wpilibj.GenericHID.Hand
 import edu.wpi.first.wpilibj.IterativeRobot
 import edu.wpi.first.wpilibj.XboxController
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
-import edu.wpi.first.wpilibj.CameraServer
 
 class Robot : IterativeRobot() {
     lateinit var controller: XboxController
@@ -13,6 +15,7 @@ class Robot : IterativeRobot() {
     lateinit var lift: Lift
     lateinit var wrist: Wrist
     lateinit var intake: Intake
+    lateinit var startPosition: AnalogInput
 
     override fun robotInit() {
         println("Hello Illawarra 9761")
@@ -24,6 +27,7 @@ class Robot : IterativeRobot() {
         lift = Lift()
         wrist = Wrist()
         intake = Intake()
+        startPosition = AnalogInput(Ports.START_POSITION_CHANNEL)
     }
 
     fun clamp(num: Double): Double {
@@ -41,10 +45,48 @@ class Robot : IterativeRobot() {
         return num
     }
 
+    fun identifyStartPosition(startPositionVoltage: Double): Int {
+        if (startPositionVoltage < 5.0/3.0)
+            return -1 // left
+
+        if (startPositionVoltage > 5.0*2.0/3.0)
+            return 1 // right
+
+        return 0 // centre
+    }
+
     var startTime: Long = 0
+    lateinit var strategy: Strategy
 
     override fun autonomousInit() {
         startTime = System.currentTimeMillis()
+        val gameData = DriverStation.getInstance().gameSpecificMessage
+        SmartDashboard.putString("gameData", gameData)
+        val startPositionVoltage = startPosition.getVoltage()
+        SmartDashboard.putNumber("startPositionVoltage", startPositionVoltage)
+        val identifiedStartPosition = identifyStartPosition(startPositionVoltage)
+        SmartDashboard.putNumber("identifiedStartPosition", identifiedStartPosition.toDouble())
+
+        if (identifiedStartPosition == -1) {
+            if (gameData[0] == 'L')
+                strategy = LeftToLeftSwitch
+            else if (gameData[1] == 'L')
+                strategy = LeftToLeftScale
+            else
+                strategy = LeftToCrossLine
+        } else if (identifiedStartPosition == 0) {
+            if (gameData[0] == 'L')
+                strategy = CentreToLeftSwitch
+            else
+                strategy = CentreToRightSwitch
+        } else {
+            if (gameData[0] == 'R')
+                strategy = RightToRightSwitch
+            else if (gameData[1] == 'R')
+                strategy = RightToRightScale
+            else
+                strategy = RightToCrossLine
+        }
     }
 
     override fun autonomousPeriodic() {

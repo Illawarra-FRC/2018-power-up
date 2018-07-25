@@ -18,4 +18,7 @@ object Ports {
     val INTAKE_LEFT_CHANNEL = 6
     val INTAKE_RIGHT_CHANNEL = 7
     val WRIST_SERVO_CHANNEL = 8
+
+    // Analog input channel
+    val START_POSITION_CHANNEL = 9
 }

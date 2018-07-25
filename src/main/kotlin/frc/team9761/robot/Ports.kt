@@ -21,4 +21,11 @@ object Ports {
 
     // Analog input channel
     val START_POSITION_CHANNEL = 9
+
+    // DIO ports
+    val ENCODER_LEFT_A_CHANNEL = 0
+    val ENCODER_LEFT_B_CHANNEL = 1
+    val ENCODER_RIGHT_A_CHANNEL = 2
+    val ENCODER_RIGHT_B_CHANNEL = 3
+    
 }

@@ -24,6 +24,8 @@ class Robot : IterativeRobot() {
         CameraServer.getInstance().startAutomaticCapture()
 
         drivetrain = Drivetrain()
+        drivetrain.init()
+
         lift = Lift()
         wrist = Wrist()
         intake = Intake()
@@ -57,6 +59,7 @@ class Robot : IterativeRobot() {
 
     var startTime: Long = 0
     lateinit var strategy: Strategy
+    var stepIndex: Int = 0
 
     override fun autonomousInit() {
         startTime = System.currentTimeMillis()
@@ -87,14 +90,12 @@ class Robot : IterativeRobot() {
             else
                 strategy = RightToCrossLine
         }
+        SmartDashboard.putString("Strategy", strategy.name())
     }
 
     override fun autonomousPeriodic() {
         val currentTime = System.currentTimeMillis()
         val elapsedTime = currentTime - startTime
-
-        var drivePower = if (elapsedTime < Speeds.CROSS_LINE_DURATION) Speeds.CROSS_LINE_POWER else 0.0
-        drivetrain.setPower(drivePower, drivePower)
 
         if (elapsedTime < Speeds.LIFT_RAISE_DURATION)
             lift.raise()
@@ -102,6 +103,10 @@ class Robot : IterativeRobot() {
             lift.stop()
             wrist.release()
         }
+
+        //var drivePower = if (elapsedTime < Speeds.CROSS_LINE_DURATION) Speeds.CROSS_LINE_POWER else 0.0
+        //drivetrain.setPower(drivePower, drivePower)
+
     }
 
     override fun teleopPeriodic() {

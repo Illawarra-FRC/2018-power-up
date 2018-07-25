@@ -1,11 +1,13 @@
 package frc.team9761.robot
 
+import com.analog.adis16448.frc.ADIS16448_IMU
 import edu.wpi.first.wpilibj.AnalogInput
 import edu.wpi.first.wpilibj.CameraServer
 import edu.wpi.first.wpilibj.DriverStation
 import edu.wpi.first.wpilibj.GenericHID.Hand
 import edu.wpi.first.wpilibj.IterativeRobot
 import edu.wpi.first.wpilibj.XboxController
+import edu.wpi.first.wpilibj.interfaces.Gyro
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 
 class Robot : IterativeRobot() {
@@ -16,6 +18,7 @@ class Robot : IterativeRobot() {
     lateinit var wrist: Wrist
     lateinit var intake: Intake
     lateinit var startPosition: AnalogInput
+    lateinit var gyro: Gyro
 
     override fun robotInit() {
         println("Hello Illawarra 9761")
@@ -30,6 +33,8 @@ class Robot : IterativeRobot() {
         wrist = Wrist()
         intake = Intake()
         startPosition = AnalogInput(Ports.START_POSITION_CHANNEL)
+
+        gyro = ADIS16448_IMU()
     }
 
     fun clamp(num: Double): Double {
@@ -91,6 +96,10 @@ class Robot : IterativeRobot() {
                 strategy = RightToCrossLine
         }
         SmartDashboard.putString("Strategy", strategy.name())
+        val steps = strategy.steps()
+        stepIndex = 0
+        SmartDashboard.putNumber("stepIndex", stepIndex.toDouble())
+        steps[stepIndex].stepInit(this)
     }
 
     override fun autonomousPeriodic() {
@@ -104,9 +113,14 @@ class Robot : IterativeRobot() {
             wrist.release()
         }
 
-        //var drivePower = if (elapsedTime < Speeds.CROSS_LINE_DURATION) Speeds.CROSS_LINE_POWER else 0.0
-        //drivetrain.setPower(drivePower, drivePower)
-
+        val steps = strategy.steps()
+        if (stepIndex < steps.size) {
+            if (steps[stepIndex].stepPeriodic(this)) {
+                stepIndex = stepIndex + 1
+                SmartDashboard.putNumber("stepIndex", stepIndex.toDouble())
+                steps[stepIndex].stepInit(this)
+            }
+        }
     }
 
     override fun teleopPeriodic() {

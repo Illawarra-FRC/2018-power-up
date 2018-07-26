@@ -9,9 +9,11 @@ import edu.wpi.first.wpilibj.IterativeRobot
 import edu.wpi.first.wpilibj.XboxController
 import edu.wpi.first.wpilibj.interfaces.Gyro
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
+import edu.wpi.first.wpilibj.Joystick
 
 class Robot : IterativeRobot() {
     lateinit var controller: XboxController
+    lateinit var snes: Joystick
 
     lateinit var drivetrain: Drivetrain
     lateinit var lift: Lift
@@ -24,6 +26,7 @@ class Robot : IterativeRobot() {
         println("Hello Illawarra 9761")
 
         controller = XboxController(Ports.XBOX_CONTROLLER_PORT)
+        snes = Joystick(Ports.SNES_CONTROLLER_PORT)
         CameraServer.getInstance().startAutomaticCapture()
 
         drivetrain = Drivetrain()
@@ -128,6 +131,17 @@ class Robot : IterativeRobot() {
         }
 
         run {
+            val liftInput = snes.getY(Hand.kLeft)
+            SmartDashboard.putNumber("liftInput", liftInput)
+            if (liftInput < -0.2)
+                lift.lower()
+            else if (liftInput > 0.2)
+                lift.raise()
+            else
+                lift.stop()
+
+
+/*
             val leftBumper = controller.getBumper(Hand.kLeft)
             val rightBumper = controller.getBumper(Hand.kRight)
             if (leftBumper)
@@ -136,6 +150,7 @@ class Robot : IterativeRobot() {
                 lift.raise()
             else
                 lift.stop()
+*/                
         }
 
         run {
@@ -150,6 +165,16 @@ class Robot : IterativeRobot() {
         }
 
         run {
+            val snesTrigger: Boolean = snes.getButton(Joystick.ButtonType.kTrigger)
+            val snesTop: Boolean = snes.getButton(Joystick.ButtonType.kTop)
+            if (snesTrigger)
+                intake.grab()
+            else if (snesTop)
+                intake.eject()
+            else
+                intake.stop()
+
+/*
             val leftTrigger: Boolean = (controller.getTriggerAxis(Hand.kLeft) > Speeds.TRIGGER_THRESHOLD)
             val rightTrigger: Boolean = (controller.getTriggerAxis(Hand.kRight) > Speeds.TRIGGER_THRESHOLD)
             if (rightTrigger)
@@ -158,6 +183,7 @@ class Robot : IterativeRobot() {
                 intake.eject()
             else
                 intake.stop()
+*/                
         }
     }
 }

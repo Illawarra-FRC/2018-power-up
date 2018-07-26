@@ -2,6 +2,7 @@ package frc.team9761.robot
 
 object Ports {
     val XBOX_CONTROLLER_PORT = 0
+    val SNES_CONTROLLER_PORT = 0
 
     // CAN Bus Node IDs
     val LIFT_LEFT_A_CANID = 1
@@ -28,4 +29,7 @@ object Ports {
     val ENCODER_RIGHT_A_CHANNEL = 2
     val ENCODER_RIGHT_B_CHANNEL = 3
     
+    // Pneumatic ports
+    val SOLENOID_FORWARD_CHANNEL = 0
+    val SOLENOID_REVERSE_CHANNEL = 1
 }

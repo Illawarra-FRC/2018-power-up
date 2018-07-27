@@ -9,8 +9,8 @@ object Speeds {
     val WRIST_RAISE_POWER = 0.5
     val WRIST_LOWER_POWER = -0.5
 
-    val OUT_POWER = 0.2
-    val IN_POWER = -0.2
+    val OUT_POWER = 0.5
+    val IN_POWER = -0.5
 
     val TRIGGER_THRESHOLD = 0.5
 

@@ -131,7 +131,7 @@ class Robot : IterativeRobot() {
         }
 
         run {
-            val liftInput = snes.getY(Hand.kLeft)
+            val liftInput = snes.getX(Hand.kLeft)
             SmartDashboard.putNumber("liftInput", liftInput)
             if (liftInput < -0.2)
                 lift.lower()

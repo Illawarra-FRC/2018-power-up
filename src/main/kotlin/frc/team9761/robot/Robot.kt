@@ -109,7 +109,9 @@ class Robot : IterativeRobot() {
             if (steps[stepIndex].stepPeriodic(this)) {
                 stepIndex = stepIndex + 1
                 SmartDashboard.putNumber("stepIndex", stepIndex.toDouble())
-                steps[stepIndex].stepInit(this)
+                if (stepIndex < steps.size) {
+                    steps[stepIndex].stepInit(this)
+                }
             }
         }
     }
@@ -131,7 +133,7 @@ class Robot : IterativeRobot() {
         }
 
         run {
-            val liftInput = snes.getX(Hand.kLeft)
+            val liftInput = snes.getY(Hand.kLeft)
             SmartDashboard.putNumber("liftInput", liftInput)
             if (liftInput < -0.2)
                 lift.lower()

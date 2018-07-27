@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid
 class Intake {
     val intakeLeft = Talon(Ports.INTAKE_LEFT_CHANNEL)
     val intakeRight = Talon(Ports.INTAKE_RIGHT_CHANNEL)
-    val cylinder = DoubleSolenoid(SOLENOID_FORWARD_CHANNEL, SOLENOID_REVERSE_CHANNEL)
+    val cylinder = DoubleSolenoid(Ports.SOLENOID_FORWARD_CHANNEL, Ports.SOLENOID_REVERSE_CHANNEL)
     fun grab() {
         setIntakePower(Speeds.IN_POWER)
     }

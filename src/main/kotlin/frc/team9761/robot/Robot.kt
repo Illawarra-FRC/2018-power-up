@@ -164,12 +164,21 @@ class Robot : IterativeRobot() {
                 wrist.stop()
         }
 
+// SNES buttons
+// 1 - X - wrist up
+// 2 - A - open pneumatics
+// 3 - B - close pneumatics
+// 4 - Y - wrist down
+// 5 - Left Trigger - Outtake
+// 6 - Right Trigger - Intake
+
+
         run {
-            val snesTrigger: Boolean = snes.getButton(Joystick.ButtonType.kTrigger)
-            val snesTop: Boolean = snes.getButton(Joystick.ButtonType.kTop)
-            if (snesTrigger)
-                intake.grab()
-            else if (snesTop)
+            val snesLeftTrigger: Boolean = snes.getRawButton(Ports.SNES_LEFT_TRIGGER)
+            val snesRightTrigger: Boolean = snes.getRawButton(Ports.SNES_RIGHT_TRIGGER)
+            if (snesRightTrigger)
+                intake.grab()  
+            else if (snesLeftTrigger)
                 intake.eject()
             else
                 intake.stop()
@@ -184,6 +193,15 @@ class Robot : IterativeRobot() {
             else
                 intake.stop()
 */                
+        }
+
+        run {
+            val snesAButton: Boolean = snes.getRawButton(Ports.SNES_A_BUTTON)
+            val snesBButton: Boolean = snes.getRawButton(Ports.SNES_B_BUTTON)
+            if (snesAButton)
+                intake.open()  
+            else if (snesBButton)
+                intake.close()
         }
     }
 }

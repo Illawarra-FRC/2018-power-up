@@ -1,6 +1,13 @@
 package frc.team9761.robot
 
 object Ports {
+    val SNES_X_BUTTON = 1
+    val SNES_A_BUTTON = 2
+    val SNES_B_BUTTON = 3
+    val SNES_Y_BUTTON = 4
+    val SNES_LEFT_TRIGGER = 5
+    val SNES_RIGHT_TRIGGER = 6
+
     val XBOX_CONTROLLER_PORT = 0
     val SNES_CONTROLLER_PORT = 0
 

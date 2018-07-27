@@ -96,6 +96,7 @@ class Robot : IterativeRobot() {
             else
                 strategy = RightToCrossLine
         }
+        strategy = LeftToCrossLine;
         SmartDashboard.putString("Strategy", strategy.name())
         val steps = strategy.steps()
         stepIndex = 0

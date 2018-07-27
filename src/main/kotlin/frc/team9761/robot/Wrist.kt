@@ -9,11 +9,13 @@ class Wrist {
     val servo = Servo(Ports.WRIST_SERVO_CHANNEL)
 
     fun release() {
-        setservoPosition(1.0)
+        // Servo not connected.
+        // setservoPosition(1.0)
     }
 
     fun hold() {
-        setservoPosition(0.0)
+        // Servo not connected.
+        // setservoPosition(0.0)
     }
 
     fun raise() {

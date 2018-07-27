@@ -36,7 +36,7 @@ object LeftToCrossLine: Strategy() {
     override fun name(): String = "LeftToCrossLine"
 
     override fun steps(): Array<Step> = arrayOf(
-        Drive(6.0),
+        Drive(3.0), // ideally 6
         TurnRight(),
         WristRelease()
     )
